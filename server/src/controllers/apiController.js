@@ -22,6 +22,7 @@ const getOriginalUrl = async (req, res) => {
 const redirectToOriginalUrl = async (req, res) => {
     try {
         const { shortCode } = req.params;
+        
         if (!shortCode) {
             return res.status(400).json(new ApiResponse(400, 'Short code is required', null));
         }
