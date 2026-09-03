@@ -20,7 +20,7 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-20 border-b border-slate-700/70 bg-slate-950/75 backdrop-blur-xl">
       <nav
-        className="mx-auto flex max-w-[1200px] items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
+        className="mx-auto flex max-w-300 items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
       >
         <a href="#top" className="flex items-center gap-3" aria-label="Shrinkly home">

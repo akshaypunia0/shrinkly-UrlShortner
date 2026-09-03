@@ -15,7 +15,7 @@ export function Footer() {
 
   return (
     <footer className="border-t border-slate-700 bg-slate-950 text-slate-300">
-      <div className="mx-auto flex max-w-[1200px] flex-col gap-3 px-4 py-8 text-sm sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+      <div className="mx-auto flex max-w-300 flex-col gap-3 px-4 py-8 text-sm sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 text-slate-100">
             <Mark />

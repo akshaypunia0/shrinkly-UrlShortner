@@ -1,11 +1,13 @@
 import ApiResponse from "../utils/apiResponse.js"
-import { generateShortUrlService, redirectToOriginalUrlService } from "../services/urlServices.js"
+import { generateShortUrlService, redirectToOriginalUrlService, urlStatsService } from "../services/urlServices.js"
+import extractShortCode from "../utils/extractShortCode.js"
 
 
 const getOriginalUrl = async (req, res) => {
     try {
 
         const { originalUrl } = req.body
+
         if (!originalUrl) {
             return res.status(400).json(new ApiResponse(400, 'URL is required', null));
         }
@@ -35,8 +37,30 @@ const redirectToOriginalUrl = async (req, res) => {
     }
 }
 
+const getUrlStats = async (req, res) => {
+
+    const { url } = req.body
+
+    if (!url || url.trim() === "") {
+        return res.status(400).json(new ApiResponse(400, "Short url is required", null))
+    }
+
+    const shortCode = extractShortCode(url);
+
+    if (!shortCode) {
+        throw new Error("Invalid short url format");
+    }
+
+    try {
+        const stats = await urlStatsService(shortCode);
+        return res.status(200).json(new ApiResponse(200, "URL stats", stats));
+    } catch (error) {
+        return res.status(500).json(new ApiResponse(500, 'Internal server error', null));
+    }
+}
 
 export {
     getOriginalUrl,
-    redirectToOriginalUrl
+    redirectToOriginalUrl,
+    getUrlStats
 };

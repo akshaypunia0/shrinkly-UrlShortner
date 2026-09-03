@@ -26,8 +26,20 @@ const redirectToOriginalUrlService = async (shortCode) => {
     return url.originalUrl;
 }
 
+const urlStatsService = async (shortCode) => {
+    const url = await Url.findOne({ shortCode });
+    if (!url) {
+        throw new Error('Short URL not found');
+    }
+    return { 
+       count: url.clickCount,
+       createdAt: url.createdAt,
+    };
+}
+
 
 export {
     generateShortUrlService,
-    redirectToOriginalUrlService
+    redirectToOriginalUrlService,
+    urlStatsService
 };

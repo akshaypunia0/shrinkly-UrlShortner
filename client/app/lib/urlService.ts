@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export type ApiResponseShape = {
   statusCode?: number;
   message?: string;
@@ -5,31 +7,49 @@ export type ApiResponseShape = {
 };
 
 export async function shortenUrl(originalUrl: string) {
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8001";
 
-  const response = await fetch(`${apiBaseUrl}/api/url/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ originalUrl }),
-  });
-
-  const payload = (await response.json()) as ApiResponseShape;
+  const response = await axios.post<ApiResponseShape>(`${apiBaseUrl}/api/url/`, { originalUrl });
+  const payload = response.data;
 
   console.log("Payload is: ", payload);
-  
 
-  if (!response.ok || (payload.statusCode != null && payload.statusCode >= 400)) {
-    throw new Error(payload.message ?? "Unable to generate short link. Please try again.");
-  }
-
-  if (!payload.data || typeof payload.data !== "string") {
-    throw new Error("The server did not return a valid short URL.");
+  if (response.status !== 200 || !payload.data) {
+    throw new Error(payload.message || "Failed to shorten the URL.");
   }
 
   return {
     shortCode: payload.data,
     shortUrl: `${apiBaseUrl}/${payload.data}`,
   };
+}
+
+
+
+interface ClickCountResult {
+  count: number;
+  createdAt?: string;
+}
+
+interface ClickCountApiResponse {
+  success: boolean;
+  message: string;
+  data: ClickCountResult | null;
+}
+
+
+export async function clickCount(shortUrl: string): Promise<ClickCountResult>  {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8001";
+
+  console.log("Short URL is: ", shortUrl);
+
+  const response = await axios.post<ClickCountApiResponse>(`${apiBaseUrl}/api/url/stats`, { url: shortUrl });
+  console.log("Response is: ", response);
+  const payload = response.data;
+
+  if (!payload.data) {
+    throw new Error(payload.message || "Failed to get click count.");
+  }
+
+  return payload.data
 }

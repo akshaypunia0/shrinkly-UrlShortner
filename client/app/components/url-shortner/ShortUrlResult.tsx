@@ -37,14 +37,14 @@ export function ShortUrlResult({ shortUrl, originalUrl }: ShortUrlResultProps) {
             <Link2 className="h-3.5 w-3.5" />
             Your short URL
           </div>
-          <a
+          {/* <a
             href={shortUrl}
             target="_blank"
             rel="noreferrer"
             className="mt-2 block break-all text-base font-semibold text-violet-200 underline-offset-4 hover:underline"
-          >
+          > */}
             {shortUrl}
-          </a>
+          {/* </a> */}
         </div>
 
         <div className="flex flex-col gap-2 sm:flex-row">
@@ -67,11 +67,6 @@ export function ShortUrlResult({ shortUrl, originalUrl }: ShortUrlResultProps) {
             Open link
           </a>
         </div>
-      </div>
-
-      <div className="mt-4 border-t border-emerald-500/20 pt-4 text-sm text-slate-300">
-        <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-slate-400">Original URL</div>
-        <p className="mt-2 overflow-hidden text-ellipsis whitespace-nowrap break-all">{originalUrl}</p>
       </div>
 
       {copyState === "error" ? (

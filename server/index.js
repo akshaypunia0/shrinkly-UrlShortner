@@ -6,7 +6,8 @@ import connectDB from './src/config/db.js'
 import apiRoutes from './src/routes/apiRoutes.js'
 
 
-const PORT = process.env.PORT || 3001
+
+const PORT = process.env.PORT || 8000
 
 connectDB()
 const app = express()
